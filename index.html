@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Meal Planner</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>🍽️ Weekly Meal Planner</h1>
+    <p class="tagline">Plan dinners for two, build your grocery list, discover new dishes.</p>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="recipes">📖 My Recipes</button>
+      <button class="tab-btn" data-tab="plan">🗓️ Weekly Plan</button>
+      <button class="tab-btn" data-tab="grocery">🛒 Grocery List</button>
+      <button class="tab-btn" data-tab="discover">✨ Discover</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============ RECIPES TAB ============ -->
+    <section id="tab-recipes" class="tab-panel active">
+      <div class="panel-header">
+        <h2>My Recipe Repository</h2>
+        <div class="panel-actions">
+          <button id="btn-new-recipe" class="btn primary">+ Add Recipe</button>
+          <button id="btn-export" class="btn subtle">Export</button>
+          <button id="btn-import" class="btn subtle">Import</button>
+          <input type="file" id="import-file" accept=".json" hidden />
+        </div>
+      </div>
+      <input type="search" id="recipe-search" class="search-box" placeholder="Search recipes or ingredients…" />
+      <div id="recipe-list" class="card-grid"></div>
+    </section>
+
+    <!-- ============ PLAN TAB ============ -->
+    <section id="tab-plan" class="tab-panel">
+      <div class="panel-header">
+        <h2>This Week's Dinners <span class="badge">for 2 people</span></h2>
+        <div class="panel-actions">
+          <button id="btn-generate" class="btn primary">🎲 Generate Week</button>
+          <button id="btn-clear-plan" class="btn subtle">Clear</button>
+        </div>
+      </div>
+      <p class="hint">Each meal is automatically scaled to 2 servings. Click 🔒 to keep a day when re-generating, or 🔄 to swap just that day.</p>
+      <div id="plan-list" class="plan-grid"></div>
+    </section>
+
+    <!-- ============ GROCERY TAB ============ -->
+    <section id="tab-grocery" class="tab-panel">
+      <div class="panel-header">
+        <h2>Grocery List</h2>
+        <div class="panel-actions">
+          <button id="btn-copy-grocery" class="btn subtle">📋 Copy</button>
+          <button id="btn-print-grocery" class="btn subtle">🖨️ Print</button>
+        </div>
+      </div>
+      <p class="hint">Built from this week's plan, with quantities scaled for 2 people and combined across recipes.</p>
+      <div id="grocery-list"></div>
+    </section>
+
+    <!-- ============ DISCOVER TAB ============ -->
+    <section id="tab-discover" class="tab-panel">
+      <div class="panel-header">
+        <h2>This Week's Suggestions</h2>
+        <div class="panel-actions">
+          <button id="btn-refresh-suggestions" class="btn subtle">Show me different ones</button>
+        </div>
+      </div>
+      <p class="hint">Two new recipes each week — not in your repository yet, chosen to match the ingredients and cuisines you already cook with.</p>
+      <div id="suggestion-list" class="card-grid"></div>
+    </section>
+  </main>
+
+  <!-- ============ RECIPE EDITOR MODAL ============ -->
+  <dialog id="recipe-modal">
+    <form id="recipe-form" method="dialog">
+      <h2 id="modal-title">Add Recipe</h2>
+      <label>Recipe name
+        <input type="text" id="f-name" required placeholder="e.g. Lemon Garlic Chicken" />
+      </label>
+      <div class="form-row">
+        <label>Servings the recipe makes
+          <input type="number" id="f-servings" min="1" max="24" value="4" required />
+        </label>
+        <label>Tags <span class="muted">(comma separated)</span>
+          <input type="text" id="f-tags" placeholder="e.g. chicken, italian, quick" />
+        </label>
+      </div>
+      <h3>Ingredients</h3>
+      <div id="ingredient-rows"></div>
+      <button type="button" id="btn-add-ingredient" class="btn subtle small">+ Add ingredient</button>
+      <div class="modal-actions">
+        <button type="button" id="btn-cancel-modal" class="btn subtle">Cancel</button>
+        <button type="submit" class="btn primary">Save Recipe</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast"></div>
+
+  <script src="library.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

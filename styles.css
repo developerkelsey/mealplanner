@@ -1,0 +1,334 @@
+/* ==========================================================================
+   Weekly Meal Planner styles
+   ========================================================================== */
+
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --ink: #2d2a26;
+  --muted: #8a837a;
+  --line: #e8e2d9;
+  --accent: #e07a3f;
+  --accent-dark: #c9642c;
+  --accent-soft: #fbeadd;
+  --green: #5a8f5d;
+  --danger: #c0564f;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(45, 42, 38, 0.08), 0 4px 14px rgba(45, 42, 38, 0.06);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* ---------- header & tabs ---------- */
+
+.app-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 1.5rem 1.5rem 0;
+  text-align: center;
+}
+
+.app-header h1 { margin: 0; font-size: 1.75rem; }
+.tagline { margin: 0.25rem 0 1rem; color: var(--muted); }
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  border: none;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  border-radius: 6px 6px 0 0;
+}
+
+.tab-btn:hover { color: var(--ink); background: var(--accent-soft); }
+.tab-btn.active { color: var(--accent-dark); border-bottom-color: var(--accent); }
+
+main { max-width: 1080px; margin: 0 auto; padding: 1.5rem; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ---------- panel chrome ---------- */
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.panel-header h2 { margin: 0; font-size: 1.3rem; }
+.panel-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.badge {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
+.hint { color: var(--muted); font-size: 0.9rem; margin-top: 0; }
+.muted { color: var(--muted); }
+.empty { color: var(--muted); text-align: center; padding: 2.5rem 1rem; grid-column: 1 / -1; }
+
+/* ---------- buttons ---------- */
+
+.btn {
+  font: inherit;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.05s;
+}
+
+.btn:active { transform: scale(0.97); }
+.btn.primary { background: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-dark); }
+.btn.subtle { background: var(--surface); border-color: var(--line); color: var(--ink); }
+.btn.subtle:hover { background: var(--accent-soft); }
+.btn.danger { background: none; border-color: var(--line); color: var(--danger); }
+.btn.danger:hover { background: #f9e9e8; }
+.btn.small { padding: 0.3rem 0.7rem; font-size: 0.85rem; }
+
+/* ---------- search ---------- */
+
+.search-box {
+  width: 100%;
+  font: inherit;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  background: var(--surface);
+}
+
+.search-box:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+/* ---------- cards ---------- */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.1rem;
+}
+
+.card-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.card h3 { margin: 0 0 0.25rem; font-size: 1.05rem; }
+
+.servings-pill {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--green);
+  background: #edf4ed;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.tag-row { display: flex; gap: 0.35rem; flex-wrap: wrap; margin: 0.35rem 0; }
+
+.tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+}
+
+.ingredient-list {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0;
+  font-size: 0.88rem;
+}
+
+.ingredient-list li { padding: 0.15rem 0; border-bottom: 1px dashed var(--line); }
+.ingredient-list li:last-child { border-bottom: none; }
+.ingredient-list .qty { font-weight: 600; color: var(--accent-dark); }
+
+.card-actions { display: flex; gap: 0.5rem; margin-top: 0.6rem; }
+
+.description { font-size: 0.9rem; color: var(--muted); margin: 0.25rem 0; }
+
+.suggestion-card { border-color: var(--accent); }
+.suggestion-label { font-size: 0.75rem; font-weight: 700; color: var(--accent-dark); margin-bottom: 0.3rem; }
+
+/* ---------- weekly plan ---------- */
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.day-card .day-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+
+.day-card.locked { border-color: var(--green); background: #fbfdfb; }
+.day-card.empty-day { border-style: dashed; box-shadow: none; }
+.scale-note { font-size: 0.82rem; color: var(--green); font-weight: 600; margin: 0.2rem 0; }
+
+/* ---------- grocery list ---------- */
+
+.grocery-group { margin-bottom: 1.25rem; }
+
+.grocery-group h3 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-dark);
+  border-bottom: 2px solid var(--accent-soft);
+  padding-bottom: 0.25rem;
+  margin: 0 0 0.4rem;
+}
+
+.grocery-group ul { list-style: none; margin: 0; padding: 0; }
+
+.grocery-item label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.4rem 0.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.grocery-item label:hover { background: var(--accent-soft); }
+.grocery-item input { accent-color: var(--accent); }
+.grocery-item .g-qty { font-weight: 700; min-width: 5.5rem; color: var(--accent-dark); }
+.grocery-item .g-for { font-size: 0.78rem; margin-left: auto; text-align: right; }
+.grocery-item.done .g-name, .grocery-item.done .g-qty { text-decoration: line-through; opacity: 0.45; }
+
+/* ---------- modal ---------- */
+
+dialog {
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 40px rgba(45, 42, 38, 0.25);
+  padding: 1.5rem;
+  width: min(640px, 92vw);
+  max-height: 88vh;
+}
+
+dialog::backdrop { background: rgba(45, 42, 38, 0.45); }
+
+dialog h2 { margin-top: 0; }
+dialog h3 { margin: 1rem 0 0.4rem; font-size: 0.95rem; }
+
+dialog label { display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 0.75rem; }
+
+dialog input[type="text"], dialog input[type="number"], dialog select {
+  display: block;
+  width: 100%;
+  font: inherit;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-top: 0.25rem;
+}
+
+.form-row { display: grid; grid-template-columns: 1fr 2fr; gap: 0.75rem; }
+
+.ing-row {
+  display: grid;
+  grid-template-columns: 2fr 0.8fr 1fr 1.2fr auto;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+  align-items: center;
+}
+
+.ing-row input, .ing-row select { margin-top: 0; }
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+/* ---------- toast ---------- */
+
+#toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--ink);
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 50;
+}
+
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---------- print: just the grocery list ---------- */
+
+@media print {
+  .app-header, .panel-actions, .hint, #toast { display: none !important; }
+  .tab-panel { display: none !important; }
+  #tab-grocery { display: block !important; }
+  body { background: #fff; }
+  .grocery-item .g-for { display: none; }
+}
+
+/* ---------- small screens ---------- */
+
+@media (max-width: 560px) {
+  main { padding: 1rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .ing-row { grid-template-columns: 1fr 0.6fr 0.8fr; }
+  .ing-row select { grid-column: 1 / 3; }
+  .grocery-item .g-for { display: none; }
+}

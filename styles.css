@@ -211,37 +211,9 @@ main { max-width: 1080px; margin: 0 auto; padding: 1.5rem; }
   margin-bottom: 0.3rem;
 }
 
+.day-card.locked { border-color: var(--green); background: #fbfdfb; }
+.day-card.empty-day { border-style: dashed; box-shadow: none; }
 .scale-note { font-size: 0.82rem; color: var(--green); font-weight: 600; margin: 0.2rem 0; }
-
-.meal-slot {
-  border-top: 1px dashed var(--line);
-  padding-top: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.meal-slot:first-of-type { border-top: none; padding-top: 0; margin-top: 0.3rem; }
-
-.meal-slot.locked {
-  background: #f4f9f4;
-  border-left: 3px solid var(--green);
-  border-radius: 6px;
-  padding-left: 0.5rem;
-}
-
-.meal-slot h3 { margin: 0; font-size: 1rem; }
-
-.meal-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--accent-dark);
-  margin-bottom: 0.1rem;
-}
-
-.small-note { font-size: 0.85rem; margin: 0.1rem 0 0.3rem; }
-
-.meal-tag { background: #eef1f8; color: #4a5a8a; }
 
 /* ---------- grocery list ---------- */
 
@@ -302,7 +274,7 @@ dialog input[type="text"], dialog input[type="number"], dialog select {
   margin-top: 0.25rem;
 }
 
-.form-row { display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 0.75rem; }
+.form-row { display: grid; grid-template-columns: 1fr 2fr; gap: 0.75rem; }
 
 .ing-row {
   display: grid;

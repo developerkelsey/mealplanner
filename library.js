@@ -8,7 +8,6 @@
    drawn from. Each entry carries tags and ingredients so suggestions can be
    scored against what the user already cooks.
 
-   meal: "lunch" | "dinner" | "both" — which plan slots a recipe may fill.
    Ingredient shape: { item, qty, unit, category }
    qty is per the recipe's stated servings; category drives grocery grouping.
    ========================================================================== */
@@ -17,7 +16,6 @@ const STARTER_RECIPES = [
   {
     name: "Lemon Garlic Chicken",
     servings: 4,
-    meal: "dinner",
     tags: ["chicken", "quick", "weeknight"],
     ingredients: [
       { item: "chicken breast", qty: 4, unit: "piece", category: "Meat & Seafood" },
@@ -31,7 +29,6 @@ const STARTER_RECIPES = [
   {
     name: "Spaghetti Bolognese",
     servings: 4,
-    meal: "dinner",
     tags: ["pasta", "italian", "beef"],
     ingredients: [
       { item: "spaghetti", qty: 1, unit: "lb", category: "Pantry" },
@@ -47,7 +44,6 @@ const STARTER_RECIPES = [
   {
     name: "Veggie Stir-Fry with Rice",
     servings: 2,
-    meal: "both",
     tags: ["vegetarian", "asian", "quick"],
     ingredients: [
       { item: "jasmine rice", qty: 1, unit: "cup", category: "Pantry" },
@@ -63,7 +59,6 @@ const STARTER_RECIPES = [
   {
     name: "Sheet-Pan Salmon & Asparagus",
     servings: 2,
-    meal: "dinner",
     tags: ["fish", "healthy", "quick"],
     ingredients: [
       { item: "salmon fillet", qty: 2, unit: "piece", category: "Meat & Seafood" },
@@ -76,7 +71,6 @@ const STARTER_RECIPES = [
   {
     name: "Beef Tacos",
     servings: 4,
-    meal: "both",
     tags: ["mexican", "beef", "weeknight"],
     ingredients: [
       { item: "ground beef", qty: 1, unit: "lb", category: "Meat & Seafood" },
@@ -91,7 +85,6 @@ const STARTER_RECIPES = [
   {
     name: "Chicken Caesar Salad",
     servings: 2,
-    meal: "lunch",
     tags: ["chicken", "salad", "healthy", "quick"],
     ingredients: [
       { item: "chicken breast", qty: 2, unit: "piece", category: "Meat & Seafood" },
@@ -104,7 +97,6 @@ const STARTER_RECIPES = [
   {
     name: "Creamy Tomato Soup & Grilled Cheese",
     servings: 2,
-    meal: "both",
     tags: ["vegetarian", "comfort", "soup"],
     ingredients: [
       { item: "crushed tomatoes", qty: 28, unit: "oz", category: "Pantry" },
@@ -122,7 +114,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Chicken Piccata",
     servings: 4,
-    meal: "dinner",
     tags: ["chicken", "italian", "quick"],
     description: "Pan-fried chicken cutlets in a bright lemon-caper butter sauce.",
     ingredients: [
@@ -138,7 +129,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Honey Garlic Glazed Salmon",
     servings: 2,
-    meal: "dinner",
     tags: ["fish", "quick", "asian"],
     description: "Seared salmon lacquered with a sticky honey-garlic-soy glaze.",
     ingredients: [
@@ -153,7 +143,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Chicken Tikka Masala",
     servings: 4,
-    meal: "dinner",
     tags: ["chicken", "indian", "comfort"],
     description: "Yogurt-marinated chicken simmered in a creamy spiced tomato sauce.",
     ingredients: [
@@ -170,7 +159,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Shrimp Scampi Linguine",
     servings: 4,
-    meal: "dinner",
     tags: ["pasta", "italian", "seafood", "quick"],
     description: "Garlicky shrimp tossed with linguine, white wine, lemon, and parsley.",
     ingredients: [
@@ -186,7 +174,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Beef & Broccoli Stir-Fry",
     servings: 4,
-    meal: "dinner",
     tags: ["beef", "asian", "quick"],
     description: "Takeout-style flank steak and broccoli in a glossy ginger-soy sauce.",
     ingredients: [
@@ -202,7 +189,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Margherita Flatbread Pizza",
     servings: 2,
-    meal: "both",
     tags: ["vegetarian", "italian", "quick"],
     description: "Crisp flatbreads with fresh mozzarella, tomatoes, and basil.",
     ingredients: [
@@ -217,7 +203,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Slow-Cooker Pulled Pork Sandwiches",
     servings: 6,
-    meal: "both",
     tags: ["pork", "comfort", "american"],
     description: "Fork-tender BBQ pulled pork piled on toasted buns with slaw.",
     ingredients: [
@@ -231,7 +216,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Greek Chicken Bowls",
     servings: 4,
-    meal: "both",
     tags: ["chicken", "mediterranean", "healthy"],
     description: "Marinated chicken over rice with cucumber, feta, olives, and tzatziki.",
     ingredients: [
@@ -248,7 +232,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Mushroom Risotto",
     servings: 4,
-    meal: "dinner",
     tags: ["vegetarian", "italian", "comfort"],
     description: "Creamy arborio rice with sautéed mushrooms and parmesan.",
     ingredients: [
@@ -264,7 +247,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Fish Tacos with Lime Crema",
     servings: 4,
-    meal: "both",
     tags: ["fish", "mexican", "quick"],
     description: "Crispy spiced white fish in warm tortillas with cabbage and lime crema.",
     ingredients: [
@@ -280,7 +262,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Thai Red Curry with Chicken",
     servings: 4,
-    meal: "dinner",
     tags: ["chicken", "thai", "asian"],
     description: "Coconut red curry with chicken, bell pepper, and bamboo shoots over rice.",
     ingredients: [
@@ -296,7 +277,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Stuffed Bell Peppers",
     servings: 4,
-    meal: "dinner",
     tags: ["beef", "comfort", "american"],
     description: "Bell peppers baked with a savory beef, rice, and tomato filling.",
     ingredients: [
@@ -311,7 +291,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Caprese Chicken Skillet",
     servings: 4,
-    meal: "dinner",
     tags: ["chicken", "italian", "healthy", "quick"],
     description: "Seared chicken topped with mozzarella, tomatoes, basil, and balsamic glaze.",
     ingredients: [
@@ -326,7 +305,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Black Bean Quesadillas",
     servings: 2,
-    meal: "lunch",
     tags: ["vegetarian", "mexican", "quick"],
     description: "Crispy tortillas stuffed with black beans, corn, and melty cheese.",
     ingredients: [
@@ -341,7 +319,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Garlic Butter Steak Bites & Potatoes",
     servings: 4,
-    meal: "dinner",
     tags: ["beef", "comfort", "quick"],
     description: "Sirloin bites and crispy potatoes tossed in garlic-herb butter.",
     ingredients: [
@@ -355,7 +332,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Coconut Chickpea Curry",
     servings: 4,
-    meal: "both",
     tags: ["vegetarian", "indian", "healthy"],
     description: "Chickpeas and spinach simmered in a gingery coconut-tomato sauce.",
     ingredients: [
@@ -372,7 +348,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Pesto Pasta with Roasted Vegetables",
     servings: 4,
-    meal: "both",
     tags: ["vegetarian", "pasta", "italian"],
     description: "Penne tossed with basil pesto, roasted zucchini, and cherry tomatoes.",
     ingredients: [
@@ -387,7 +362,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Chicken Fried Rice",
     servings: 4,
-    meal: "both",
     tags: ["chicken", "asian", "quick"],
     description: "Wok-fried rice with chicken, egg, peas, and scallions.",
     ingredients: [
@@ -403,7 +377,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Turkey Chili",
     servings: 6,
-    meal: "both",
     tags: ["turkey", "comfort", "american", "soup"],
     description: "Hearty ground-turkey chili with beans, warm spices, and all the toppings.",
     ingredients: [
@@ -419,7 +392,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Baked Ziti",
     servings: 6,
-    meal: "dinner",
     tags: ["pasta", "italian", "comfort", "beef"],
     description: "Bubbly baked pasta layered with meat sauce, ricotta, and mozzarella.",
     ingredients: [
@@ -434,7 +406,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Miso-Glazed Cod with Bok Choy",
     servings: 2,
-    meal: "dinner",
     tags: ["fish", "asian", "healthy"],
     description: "Broiled cod with a sweet-savory miso glaze and sesame bok choy.",
     ingredients: [
@@ -449,7 +420,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Chicken Enchiladas",
     servings: 4,
-    meal: "dinner",
     tags: ["chicken", "mexican", "comfort"],
     description: "Rolled tortillas with shredded chicken, smothered in red sauce and cheese.",
     ingredients: [
@@ -464,7 +434,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Lentil Soup with Crusty Bread",
     servings: 4,
-    meal: "lunch",
     tags: ["vegetarian", "soup", "healthy", "comfort"],
     description: "Rustic lentil-vegetable soup finished with lemon, served with warm bread.",
     ingredients: [
@@ -480,7 +449,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "BBQ Chicken Flatbreads",
     servings: 2,
-    meal: "lunch",
     tags: ["chicken", "american", "quick"],
     description: "Flatbreads with BBQ chicken, red onion, cheddar, and cilantro.",
     ingredients: [
@@ -495,7 +463,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Pork Chops with Apples & Onions",
     servings: 4,
-    meal: "dinner",
     tags: ["pork", "american", "comfort"],
     description: "Pan-seared pork chops with cider-glazed apples and onions.",
     ingredients: [
@@ -510,7 +477,6 @@ const DISCOVER_LIBRARY = [
   {
     name: "Shakshuka",
     servings: 2,
-    meal: "lunch",
     tags: ["vegetarian", "mediterranean", "eggs", "quick"],
     description: "Eggs poached in a spiced tomato-pepper sauce with feta and warm pita.",
     ingredients: [

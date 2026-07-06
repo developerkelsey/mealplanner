@@ -11,10 +11,10 @@ Everything you add is saved automatically in your browser (localStorage), so you
 ## What it does
 
 ### 📖 My Recipes — your recipe repository
-Store every recipe with its ingredients, quantities, units, and how many servings it makes. Search by name, tag, or ingredient. The app comes with a few starter recipes you can edit or delete.
+Store every recipe with its ingredients, quantities, units, how many servings it makes, and which meals it's good for (lunch, dinner, or either). Search by name, tag, or ingredient. The app comes with a few starter recipes you can edit or delete.
 
-### 🗓️ Weekly Plan — dinners for 2, automatically
-Click **Generate Week** and the app fills Monday–Sunday with recipes from your repository. Every meal is scaled to **2 servings** — each day shows exactly what fraction or multiple of the recipe to make (e.g. "make ½× the recipe" for a 4-serving dish). Like a day? Click **Keep** to lock it before re-generating. Want something else? **Swap** replaces just that day.
+### 🗓️ Weekly Plan — lunch & dinner for 2, automatically
+Click **Generate Week** and the app fills a lunch and a dinner for every day Monday–Sunday, using only recipes marked as fitting that slot. Every meal is scaled to **2 servings** — each slot shows exactly what fraction or multiple of the recipe to make (e.g. "make ½× the recipe" for a 4-serving dish). Like a meal? Click **Keep** to lock it before re-generating. Want something else? **Swap** replaces just that one slot.
 
 ### 🛒 Grocery List — built for you
 The grocery list is generated from the week's plan: quantities are scaled for 2 people, the same ingredient across multiple recipes is combined into one line, and everything is grouped by store section (Produce, Meat & Seafood, Dairy, Pantry…). Check items off as you shop, copy the list to your phone, or print it.

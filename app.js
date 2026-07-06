@@ -6,22 +6,43 @@
 const STORAGE_KEY = "weeklyMealPlanner.v1";
 const PEOPLE = 2; // the plan always cooks for two
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const MEALS = ["lunch", "dinner"];
+const MEAL_LABEL = { lunch: "☀️ Lunch", dinner: "🌙 Dinner" };
+// recipe.meal: "lunch" | "dinner" | "both" — which slots a recipe may fill
+const fitsMeal = (recipe, meal) => (recipe.meal || "both") === "both" || recipe.meal === meal;
 
 /* ---------- state ---------- */
 
 let state = loadState();
 
+function emptyPlan() {
+  // one entry per day; each meal slot is null or { recipeId, locked }
+  return DAYS.map(() => ({ lunch: null, dinner: null }));
+}
+
+// Earlier versions planned dinners only (plan entries were { recipeId } or
+// null) and recipes had no meal field. Upgrade old saves in place.
+function migrate(s) {
+  s.plan = (s.plan || emptyPlan()).map((d) =>
+    d && "recipeId" in d ? { lunch: null, dinner: d } : d || { lunch: null, dinner: null }
+  );
+  while (s.plan.length < DAYS.length) s.plan.push({ lunch: null, dinner: null });
+  for (const r of s.recipes || []) r.meal ||= "both";
+  s.checkedGrocery ||= {};
+  s.suggestionOffset ||= 0;
+  return s;
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) return migrate(JSON.parse(raw));
   } catch (e) {
     console.warn("Could not read saved data, starting fresh.", e);
   }
   return {
     recipes: STARTER_RECIPES.map((r, i) => ({ ...r, id: "starter-" + i })),
-    // plan: array of 7 entries: { recipeId, locked } or null
-    plan: DAYS.map(() => null),
+    plan: emptyPlan(),
     checkedGrocery: {},       // "item|unit" -> true, persists checkbox state
     suggestionOffset: 0,      // bumped by "show me different ones"
   };
@@ -92,6 +113,11 @@ document.querySelectorAll(".tab-btn").forEach((btn) => {
    1. RECIPE REPOSITORY
    ========================================================================== */
 
+function mealPill(recipe) {
+  const label = { lunch: "☀️ lunch", dinner: "🌙 dinner", both: "☀️🌙 lunch or dinner" }[recipe.meal || "both"];
+  return `<span class="tag meal-tag">${label}</span>`;
+}
+
 function renderRecipes() {
   const query = document.getElementById("recipe-search").value.trim().toLowerCase();
   const list = document.getElementById("recipe-list");
@@ -121,7 +147,7 @@ function renderRecipes() {
           <h3>${escapeHtml(r.name)}</h3>
           <span class="servings-pill">Makes ${r.servings} serving${r.servings === 1 ? "" : "s"}</span>
         </div>
-        <div class="tag-row">${(r.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
+        <div class="tag-row">${mealPill(r)}${(r.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
         <ul class="ingredient-list">
           ${r.ingredients
             .map((i) => `<li><span class="qty">${formatQty(i.qty)} ${escapeHtml(i.unit)}</span> ${escapeHtml(i.item)}</li>`)
@@ -144,7 +170,8 @@ function renderRecipes() {
       if (!confirm(`Delete "${r.name}"?`)) return;
       state.recipes = state.recipes.filter((x) => x.id !== r.id);
       // remove it from the plan too
-      state.plan = state.plan.map((d) => (d && d.recipeId === r.id ? null : d));
+      for (const day of state.plan)
+        for (const m of MEALS) if (day[m] && day[m].recipeId === r.id) day[m] = null;
       saveState();
       renderAll();
       toast(`Deleted ${r.name}`);
@@ -185,6 +212,7 @@ function openRecipeModal(recipe = null) {
   document.getElementById("modal-title").textContent = recipe ? "Edit Recipe" : "Add Recipe";
   document.getElementById("f-name").value = recipe ? recipe.name : "";
   document.getElementById("f-servings").value = recipe ? recipe.servings : 4;
+  document.getElementById("f-meal").value = recipe ? recipe.meal || "both" : "both";
   document.getElementById("f-tags").value = recipe ? (recipe.tags || []).join(", ") : "";
   document.getElementById("ingredient-rows").innerHTML = "";
   (recipe ? recipe.ingredients : [undefined, undefined, undefined]).forEach((i) => addIngredientRow(i));
@@ -215,6 +243,7 @@ document.getElementById("recipe-form").addEventListener("submit", (e) => {
     id: editingId || uid(),
     name: document.getElementById("f-name").value.trim(),
     servings: parseInt(document.getElementById("f-servings").value, 10) || 1,
+    meal: document.getElementById("f-meal").value,
     tags: document.getElementById("f-tags").value.split(",").map((t) => t.trim().toLowerCase()).filter(Boolean),
     ingredients,
   };
@@ -270,18 +299,34 @@ document.getElementById("import-file").addEventListener("change", (e) => {
    ========================================================================== */
 
 function pickRecipesForWeek() {
-  // Prefer no repeats; if fewer than 7 recipes exist, cycle through them.
-  const lockedIds = state.plan.filter((d) => d && d.locked).map((d) => d.recipeId);
-  const pool = state.recipes.filter((r) => !lockedIds.includes(r.id));
-  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  // Fill every lunch and dinner slot, preferring no repeats across the week.
+  // If there aren't enough fitting recipes for 7 of each, repeats are allowed
+  // (but never the same recipe for both meals of one day).
+  const used = new Set();
+  for (const day of state.plan)
+    for (const m of MEALS) if (day[m] && day[m].locked) used.add(day[m].recipeId);
 
-  return state.plan.map((day, i) => {
-    if (day && day.locked) return day;
-    if (state.recipes.length === 0) return null;
-    const pick = shuffled.length > 0 ? shuffled[i % shuffled.length] : state.recipes[i % state.recipes.length];
-    // rotate the pool so cycling repeats spread out when recipes < 7
-    if (shuffled.length > 0 && shuffled.length < 7) shuffled.push(shuffled.shift());
-    return { recipeId: pick.id, locked: false };
+  return state.plan.map((day) => {
+    const newDay = { ...day };
+    for (const meal of MEALS) {
+      if (newDay[meal] && newDay[meal].locked) continue;
+      const fits = state.recipes.filter((r) => fitsMeal(r, meal));
+      if (fits.length === 0) {
+        newDay[meal] = null;
+        continue;
+      }
+      let pool = fits.filter((r) => !used.has(r.id));
+      if (pool.length === 0) {
+        const otherMeal = meal === "lunch" ? "dinner" : "lunch";
+        const otherId = newDay[otherMeal] && newDay[otherMeal].recipeId;
+        pool = fits.filter((r) => r.id !== otherId);
+        if (pool.length === 0) pool = fits;
+      }
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      used.add(pick.id);
+      newDay[meal] = { recipeId: pick.id, locked: false };
+    }
+    return newDay;
   });
 }
 
@@ -298,77 +343,90 @@ document.getElementById("btn-generate").addEventListener("click", () => {
 });
 
 document.getElementById("btn-clear-plan").addEventListener("click", () => {
-  state.plan = DAYS.map(() => null);
+  state.plan = emptyPlan();
   state.checkedGrocery = {};
   saveState();
   renderAll();
 });
 
-function swapDay(dayIndex) {
-  const current = state.plan[dayIndex];
-  const usedIds = state.plan.filter((d, i) => d && i !== dayIndex).map((d) => d.recipeId);
-  let candidates = state.recipes.filter(
-    (r) => !usedIds.includes(r.id) && (!current || r.id !== current.recipeId)
+function swapSlot(dayIndex, meal) {
+  const current = state.plan[dayIndex][meal];
+  const usedIds = new Set();
+  state.plan.forEach((day, i) =>
+    MEALS.forEach((m) => {
+      const e = day[m];
+      if (e && !(i === dayIndex && m === meal)) usedIds.add(e.recipeId);
+    })
   );
+  const fits = state.recipes.filter(
+    (r) => fitsMeal(r, meal) && (!current || r.id !== current.recipeId)
+  );
+  let candidates = fits.filter((r) => !usedIds.has(r.id));
+  if (candidates.length === 0) candidates = fits;
   if (candidates.length === 0) {
-    candidates = state.recipes.filter((r) => !current || r.id !== current.recipeId);
-  }
-  if (candidates.length === 0) {
-    toast("No other recipe to swap in — add more recipes.");
+    toast(`No other ${meal} recipe to swap in — add more recipes.`);
     return;
   }
   const pick = candidates[Math.floor(Math.random() * candidates.length)];
-  state.plan[dayIndex] = { recipeId: pick.id, locked: false };
+  state.plan[dayIndex][meal] = { recipeId: pick.id, locked: false };
   saveState();
   renderAll();
 }
 
 function renderPlan() {
   const holder = document.getElementById("plan-list");
-  const hasAny = state.plan.some(Boolean);
+  const hasAny = state.plan.some((d) => d.lunch || d.dinner);
 
   holder.innerHTML = DAYS.map((day, i) => {
-    const entry = state.plan[i];
-    const recipe = entry && getRecipe(entry.recipeId);
-    if (!recipe) {
+    const slots = MEALS.map((meal) => {
+      const entry = state.plan[i][meal];
+      const recipe = entry && getRecipe(entry.recipeId);
+      if (!recipe) {
+        return `
+          <div class="meal-slot">
+            <div class="meal-label">${MEAL_LABEL[meal]}</div>
+            <p class="muted small-note">${hasAny ? "Nothing planned" : "Click “Generate Week” to fill it"}</p>
+          </div>`;
+      }
+      const scale = PEOPLE / recipe.servings;
+      const scaleNote =
+        Math.abs(scale - 1) < 0.001
+          ? "recipe makes exactly 2 servings"
+          : `make ${formatQty(scale)}× the recipe (it serves ${recipe.servings})`;
       return `
-        <div class="card day-card empty-day">
-          <div class="day-name">${day}</div>
-          <p class="muted">${hasAny ? "Nothing planned" : "Click “Generate Week” to fill the week"}</p>
+        <div class="meal-slot ${entry.locked ? "locked" : ""}">
+          <div class="meal-label">${MEAL_LABEL[meal]}</div>
+          <h3>${escapeHtml(recipe.name)}</h3>
+          <p class="scale-note">${PEOPLE} servings — ${scaleNote}</p>
+          <div class="card-actions">
+            <button class="btn subtle small" data-lock="${i}:${meal}" title="${entry.locked ? "Unlock" : "Keep this when re-generating"}">
+              ${entry.locked ? "🔒 Kept" : "🔓 Keep"}
+            </button>
+            <button class="btn subtle small" data-swap="${i}:${meal}" title="Swap for a different recipe">🔄 Swap</button>
+          </div>
         </div>`;
-    }
-    const scale = PEOPLE / recipe.servings;
-    const scaleNote =
-      Math.abs(scale - 1) < 0.001
-        ? "recipe makes exactly 2 servings"
-        : scale < 1
-        ? `make ${formatQty(scale)}× the recipe (it serves ${recipe.servings})`
-        : `make ${formatQty(scale)}× the recipe`;
+    }).join("");
     return `
-      <div class="card day-card ${entry.locked ? "locked" : ""}">
+      <div class="card day-card">
         <div class="day-name">${day}</div>
-        <h3>${escapeHtml(recipe.name)}</h3>
-        <p class="scale-note">${PEOPLE} servings — ${scaleNote}</p>
-        <div class="tag-row">${(recipe.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
-        <div class="card-actions">
-          <button class="btn subtle small" data-lock="${i}" title="${entry.locked ? "Unlock" : "Keep this when re-generating"}">
-            ${entry.locked ? "🔒 Kept" : "🔓 Keep"}
-          </button>
-          <button class="btn subtle small" data-swap="${i}" title="Swap for a different recipe">🔄 Swap</button>
-        </div>
+        ${slots}
       </div>`;
   }).join("");
 
   holder.querySelectorAll("[data-lock]").forEach((b) =>
     b.addEventListener("click", () => {
-      const entry = state.plan[b.dataset.lock];
+      const [i, meal] = b.dataset.lock.split(":");
+      const entry = state.plan[Number(i)][meal];
       entry.locked = !entry.locked;
       saveState();
       renderPlan();
     })
   );
   holder.querySelectorAll("[data-swap]").forEach((b) =>
-    b.addEventListener("click", () => swapDay(Number(b.dataset.swap)))
+    b.addEventListener("click", () => {
+      const [i, meal] = b.dataset.swap.split(":");
+      swapSlot(Number(i), meal);
+    })
   );
 }
 
@@ -379,7 +437,8 @@ function renderPlan() {
 function buildGroceryList() {
   // key: item + unit (lowercased) so "2 cup broccoli" combines across recipes
   const map = new Map();
-  for (const entry of state.plan) {
+  const entries = state.plan.flatMap((day) => MEALS.map((m) => day[m]));
+  for (const entry of entries) {
     if (!entry) continue;
     const recipe = getRecipe(entry.recipeId);
     if (!recipe) continue;
@@ -539,7 +598,7 @@ function renderSuggestions() {
           <span class="servings-pill">Makes ${r.servings} servings</span>
         </div>
         <p class="description">${escapeHtml(r.description || "")}</p>
-        <div class="tag-row">${(r.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
+        <div class="tag-row">${mealPill(r)}${(r.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
         <ul class="ingredient-list">
           ${r.ingredients
             .map((i) => `<li><span class="qty">${formatQty(i.qty)} ${escapeHtml(i.unit)}</span> ${escapeHtml(i.item)}</li>`)

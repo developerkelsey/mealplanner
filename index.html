@@ -9,7 +9,7 @@
 <body>
   <header class="app-header">
     <h1>🍽️ Weekly Meal Planner</h1>
-    <p class="tagline">Plan dinners for two, build your grocery list, discover new dishes.</p>
+    <p class="tagline">Plan lunches &amp; dinners for two, build your grocery list, discover new dishes.</p>
     <nav class="tabs">
       <button class="tab-btn active" data-tab="recipes">📖 My Recipes</button>
       <button class="tab-btn" data-tab="plan">🗓️ Weekly Plan</button>
@@ -37,13 +37,13 @@
     <!-- ============ PLAN TAB ============ -->
     <section id="tab-plan" class="tab-panel">
       <div class="panel-header">
-        <h2>This Week's Dinners <span class="badge">for 2 people</span></h2>
+        <h2>This Week's Meals <span class="badge">lunch &amp; dinner for 2</span></h2>
         <div class="panel-actions">
           <button id="btn-generate" class="btn primary">🎲 Generate Week</button>
           <button id="btn-clear-plan" class="btn subtle">Clear</button>
         </div>
       </div>
-      <p class="hint">Each meal is automatically scaled to 2 servings. Click 🔒 to keep a day when re-generating, or 🔄 to swap just that day.</p>
+      <p class="hint">Every day gets a lunch and a dinner, each scaled to 2 servings. Recipes only appear in slots they're marked "good for". Click 🔓 to keep a meal when re-generating, or 🔄 to swap just that one.</p>
       <div id="plan-list" class="plan-grid"></div>
     </section>
 
@@ -83,6 +83,13 @@
       <div class="form-row">
         <label>Servings the recipe makes
           <input type="number" id="f-servings" min="1" max="24" value="4" required />
+        </label>
+        <label>Good for
+          <select id="f-meal">
+            <option value="both">Lunch or dinner</option>
+            <option value="lunch">Lunch only</option>
+            <option value="dinner">Dinner only</option>
+          </select>
         </label>
         <label>Tags <span class="muted">(comma separated)</span>
           <input type="text" id="f-tags" placeholder="e.g. chicken, italian, quick" />

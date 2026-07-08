@@ -302,5 +302,50 @@
         "category": "Other"
       }
     ]
+  },
+  {
+    "id": "mrcmuv6nevg6z",
+    "name": "Turkey Lettuce Wraps",
+    "servings": 4,
+    "meal": "dinner",
+    "tags": [],
+    "ingredients": [
+      {
+        "item": "Ground Turkey",
+        "qty": 1,
+        "unit": "pound",
+        "category": "Other"
+      },
+      {
+        "item": "Thai Peanut Sauce",
+        "qty": 0.5,
+        "unit": "bottle",
+        "category": "Other"
+      },
+      {
+        "item": "Onions",
+        "qty": 0.5,
+        "unit": "whole",
+        "category": "Other"
+      },
+      {
+        "item": "Cilantro",
+        "qty": 4,
+        "unit": "tbsp",
+        "category": "Other"
+      },
+      {
+        "item": "Garlic",
+        "qty": 4,
+        "unit": "cloves",
+        "category": "Other"
+      },
+      {
+        "item": "Mini Bell Peppers",
+        "qty": 0.5,
+        "unit": "bag",
+        "category": "Other"
+      }
+    ]
   }
 ]

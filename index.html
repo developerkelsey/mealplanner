@@ -25,11 +25,14 @@
         <h2>My Recipe Repository</h2>
         <div class="panel-actions">
           <button id="btn-new-recipe" class="btn primary">+ Add Recipe</button>
+          <button id="btn-save-github" class="btn primary">☁️ Save to GitHub</button>
+          <button id="btn-sync-settings" class="btn subtle" title="GitHub sync settings">⚙️</button>
           <button id="btn-export" class="btn subtle">Export</button>
           <button id="btn-import" class="btn subtle">Import</button>
           <input type="file" id="import-file" accept=".json" hidden />
         </div>
       </div>
+      <p id="sync-status" class="sync-pill"></p>
       <input type="search" id="recipe-search" class="search-box" placeholder="Search recipes or ingredients…" />
       <div id="recipe-list" class="card-grid"></div>
     </section>
@@ -101,6 +104,35 @@
       <div class="modal-actions">
         <button type="button" id="btn-cancel-modal" class="btn subtle">Cancel</button>
         <button type="submit" class="btn primary">Save Recipe</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- ============ GITHUB SYNC MODAL ============ -->
+  <dialog id="sync-modal">
+    <form id="sync-form" method="dialog">
+      <h2>GitHub Sync</h2>
+      <p class="hint">Your recipes are stored safely as <code>recipes.json</code> in your GitHub repository — every save is a versioned backup. Create a token at
+        <strong>github.com → Settings → Developer settings → Fine-grained tokens</strong>: choose "Only select repositories" → your mealplanner repo, and under Permissions set <strong>Contents</strong> to <strong>Read and write</strong>.</p>
+      <label>GitHub token
+        <input type="password" id="gh-token" required placeholder="github_pat_…" autocomplete="off" />
+      </label>
+      <div class="form-row">
+        <label>Owner
+          <input type="text" id="gh-owner" required />
+        </label>
+        <label>Repository
+          <input type="text" id="gh-repo" required />
+        </label>
+        <label>Branch
+          <input type="text" id="gh-branch" required />
+        </label>
+      </div>
+      <p class="hint">The token stays in this browser only. To pull recipes saved from another device, use “Load from GitHub”.</p>
+      <div class="modal-actions">
+        <button type="button" id="btn-load-github" class="btn subtle">⬇️ Load from GitHub</button>
+        <button type="button" id="btn-cancel-sync" class="btn subtle">Cancel</button>
+        <button type="submit" class="btn primary">Connect</button>
       </div>
     </form>
   </dialog>

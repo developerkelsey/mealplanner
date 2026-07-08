@@ -1,0 +1,370 @@
+[
+  {
+    "id": "starter-0",
+    "name": "Lemon Garlic Chicken",
+    "servings": 4,
+    "meal": "dinner",
+    "tags": [
+      "chicken",
+      "quick",
+      "weeknight"
+    ],
+    "ingredients": [
+      {
+        "item": "chicken breast",
+        "qty": 4,
+        "unit": "piece",
+        "category": "Meat & Seafood"
+      },
+      {
+        "item": "lemon",
+        "qty": 2,
+        "unit": "piece",
+        "category": "Produce"
+      },
+      {
+        "item": "garlic",
+        "qty": 4,
+        "unit": "clove",
+        "category": "Produce"
+      },
+      {
+        "item": "olive oil",
+        "qty": 3,
+        "unit": "tbsp",
+        "category": "Pantry"
+      },
+      {
+        "item": "butter",
+        "qty": 2,
+        "unit": "tbsp",
+        "category": "Dairy & Eggs"
+      },
+      {
+        "item": "fresh parsley",
+        "qty": 0.25,
+        "unit": "cup",
+        "category": "Produce"
+      }
+    ]
+  },
+  {
+    "id": "starter-1",
+    "name": "Spaghetti Bolognese",
+    "servings": 4,
+    "meal": "dinner",
+    "tags": [
+      "pasta",
+      "italian",
+      "beef"
+    ],
+    "ingredients": [
+      {
+        "item": "spaghetti",
+        "qty": 1,
+        "unit": "lb",
+        "category": "Pantry"
+      },
+      {
+        "item": "ground beef",
+        "qty": 1,
+        "unit": "lb",
+        "category": "Meat & Seafood"
+      },
+      {
+        "item": "crushed tomatoes",
+        "qty": 28,
+        "unit": "oz",
+        "category": "Pantry"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "category": "Produce"
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "category": "Produce"
+      },
+      {
+        "item": "carrot",
+        "qty": 1,
+        "unit": "piece",
+        "category": "Produce"
+      },
+      {
+        "item": "olive oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "category": "Pantry"
+      },
+      {
+        "item": "parmesan cheese",
+        "qty": 0.5,
+        "unit": "cup",
+        "category": "Dairy & Eggs"
+      }
+    ]
+  },
+  {
+    "id": "starter-2",
+    "name": "Veggie Stir-Fry with Rice",
+    "servings": 2,
+    "meal": "both",
+    "tags": [
+      "vegetarian",
+      "asian",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "item": "jasmine rice",
+        "qty": 1,
+        "unit": "cup",
+        "category": "Pantry"
+      },
+      {
+        "item": "broccoli",
+        "qty": 2,
+        "unit": "cup",
+        "category": "Produce"
+      },
+      {
+        "item": "bell pepper",
+        "qty": 1,
+        "unit": "piece",
+        "category": "Produce"
+      },
+      {
+        "item": "carrot",
+        "qty": 1,
+        "unit": "piece",
+        "category": "Produce"
+      },
+      {
+        "item": "soy sauce",
+        "qty": 3,
+        "unit": "tbsp",
+        "category": "Pantry"
+      },
+      {
+        "item": "garlic",
+        "qty": 2,
+        "unit": "clove",
+        "category": "Produce"
+      },
+      {
+        "item": "fresh ginger",
+        "qty": 1,
+        "unit": "tbsp",
+        "category": "Produce"
+      },
+      {
+        "item": "sesame oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "category": "Pantry"
+      }
+    ]
+  },
+  {
+    "id": "starter-3",
+    "name": "Sheet-Pan Salmon & Asparagus",
+    "servings": 2,
+    "meal": "dinner",
+    "tags": [
+      "fish",
+      "healthy",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "item": "salmon fillet",
+        "qty": 2,
+        "unit": "piece",
+        "category": "Meat & Seafood"
+      },
+      {
+        "item": "asparagus",
+        "qty": 1,
+        "unit": "bunch",
+        "category": "Produce"
+      },
+      {
+        "item": "lemon",
+        "qty": 1,
+        "unit": "piece",
+        "category": "Produce"
+      },
+      {
+        "item": "olive oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "category": "Pantry"
+      },
+      {
+        "item": "garlic",
+        "qty": 2,
+        "unit": "clove",
+        "category": "Produce"
+      }
+    ]
+  },
+  {
+    "id": "starter-4",
+    "name": "Beef Tacos",
+    "servings": 4,
+    "meal": "both",
+    "tags": [
+      "mexican",
+      "beef",
+      "weeknight"
+    ],
+    "ingredients": [
+      {
+        "item": "ground beef",
+        "qty": 1,
+        "unit": "lb",
+        "category": "Meat & Seafood"
+      },
+      {
+        "item": "taco shells",
+        "qty": 8,
+        "unit": "piece",
+        "category": "Pantry"
+      },
+      {
+        "item": "cheddar cheese",
+        "qty": 1,
+        "unit": "cup",
+        "category": "Dairy & Eggs"
+      },
+      {
+        "item": "lettuce",
+        "qty": 2,
+        "unit": "cup",
+        "category": "Produce"
+      },
+      {
+        "item": "tomato",
+        "qty": 2,
+        "unit": "piece",
+        "category": "Produce"
+      },
+      {
+        "item": "taco seasoning",
+        "qty": 2,
+        "unit": "tbsp",
+        "category": "Pantry"
+      },
+      {
+        "item": "sour cream",
+        "qty": 0.5,
+        "unit": "cup",
+        "category": "Dairy & Eggs"
+      }
+    ]
+  },
+  {
+    "id": "starter-5",
+    "name": "Chicken Caesar Salad",
+    "servings": 2,
+    "meal": "lunch",
+    "tags": [
+      "chicken",
+      "salad",
+      "healthy",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "item": "chicken breast",
+        "qty": 2,
+        "unit": "piece",
+        "category": "Meat & Seafood"
+      },
+      {
+        "item": "romaine lettuce",
+        "qty": 1,
+        "unit": "head",
+        "category": "Produce"
+      },
+      {
+        "item": "caesar dressing",
+        "qty": 0.33,
+        "unit": "cup",
+        "category": "Pantry"
+      },
+      {
+        "item": "parmesan cheese",
+        "qty": 0.33,
+        "unit": "cup",
+        "category": "Dairy & Eggs"
+      },
+      {
+        "item": "croutons",
+        "qty": 1,
+        "unit": "cup",
+        "category": "Pantry"
+      }
+    ]
+  },
+  {
+    "id": "starter-6",
+    "name": "Creamy Tomato Soup & Grilled Cheese",
+    "servings": 2,
+    "meal": "both",
+    "tags": [
+      "vegetarian",
+      "comfort",
+      "soup"
+    ],
+    "ingredients": [
+      {
+        "item": "crushed tomatoes",
+        "qty": 28,
+        "unit": "oz",
+        "category": "Pantry"
+      },
+      {
+        "item": "heavy cream",
+        "qty": 0.5,
+        "unit": "cup",
+        "category": "Dairy & Eggs"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "category": "Produce"
+      },
+      {
+        "item": "garlic",
+        "qty": 2,
+        "unit": "clove",
+        "category": "Produce"
+      },
+      {
+        "item": "sourdough bread",
+        "qty": 4,
+        "unit": "slice",
+        "category": "Bakery"
+      },
+      {
+        "item": "cheddar cheese",
+        "qty": 4,
+        "unit": "slice",
+        "category": "Dairy & Eggs"
+      },
+      {
+        "item": "butter",
+        "qty": 2,
+        "unit": "tbsp",
+        "category": "Dairy & Eggs"
+      }
+    ]
+  }
+]

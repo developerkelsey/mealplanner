@@ -6,7 +6,11 @@ A simple, personal meal-planning app that runs entirely in your browser — no i
 
 **Just open `index.html` in any browser.** That's it.
 
-Everything you add is saved automatically in your browser (localStorage), so your recipes and plan are still there next time you open it.
+### Where your data lives
+
+- **Recipes** are permanently stored as [`recipes.json`](recipes.json) in this GitHub repository — every save is a versioned commit, so nothing is ever lost. Set it up once via **⚙️ (sync settings)** on the My Recipes tab: create a fine-grained GitHub token (github.com → Settings → Developer settings → Fine-grained tokens; scope it to only this repo with **Contents: Read and write**) and paste it in. Then **☁️ Save to GitHub** commits your recipes, and the app pulls the latest on startup. A status pill shows whether you have unsaved changes. Use **Load from GitHub** to pull recipes saved from another device.
+- **The weekly plan and grocery check-offs** stay in your browser — they're throwaway weekly state, regenerated each week.
+- The browser also keeps a working copy of recipes so the app works offline; unsaved local changes are never overwritten by a startup pull.
 
 ## What it does
 
@@ -34,5 +38,6 @@ Each week the app suggests **two recipes that aren't in your repository yet**, c
 |---|---|
 | `index.html` | App layout and structure |
 | `styles.css` | All styling |
-| `app.js` | App logic: recipes, planning, grocery aggregation, suggestions |
+| `app.js` | App logic: recipes, planning, grocery aggregation, suggestions, GitHub sync |
 | `library.js` | Starter recipes + the discovery library used for weekly suggestions |
+| `recipes.json` | Your recipe collection — the permanent, version-controlled home for your recipes |

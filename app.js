@@ -23,6 +23,8 @@ function emptyPlan() {
 // Earlier versions planned dinners only (plan entries were { recipeId } or
 // null) and recipes had no meal field. Upgrade old saves in place.
 function migrate(s) {
+  s.dirty ||= false;   // recipes changed since last GitHub save
+  s.synced ||= false;  // true once recipes have been saved to / loaded from GitHub
   s.plan = (s.plan || emptyPlan()).map((d) =>
     d && "recipeId" in d ? { lunch: null, dinner: d } : d || { lunch: null, dinner: null }
   );
@@ -45,6 +47,8 @@ function loadState() {
     plan: emptyPlan(),
     checkedGrocery: {},       // "item|unit" -> true, persists checkbox state
     suggestionOffset: 0,      // bumped by "show me different ones"
+    dirty: false,
+    synced: false,
   };
 }
 
@@ -54,6 +58,212 @@ function saveState() {
 
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 const getRecipe = (id) => state.recipes.find((r) => r.id === id);
+
+// Call whenever recipes change: flags that GitHub has an older copy.
+function markDirty() {
+  state.dirty = true;
+  saveState();
+  renderSyncStatus();
+}
+
+/* ==========================================================================
+   GITHUB SYNC — recipes.json in the repo is the permanent home for recipes.
+   The browser's localStorage is only a working cache. The plan and grocery
+   checkboxes are weekly ephemera and stay local on purpose.
+   ========================================================================== */
+
+const GH_KEY = "weeklyMealPlanner.github";
+const GH_DEFAULTS = { owner: "developerkelsey", repo: "mealplanner", branch: "claude/weekly-meal-planner-app-b8vkzk" };
+let ghConfig = null;
+let ghSha = null; // sha of recipes.json at last load/save, needed to commit updates
+
+try {
+  ghConfig = JSON.parse(localStorage.getItem(GH_KEY));
+} catch { /* stay unconfigured */ }
+
+function ghUrl() {
+  return `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/recipes.json`;
+}
+
+function ghHeaders() {
+  return {
+    Authorization: `Bearer ${ghConfig.token}`,
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+}
+
+// base64 helpers that survive emoji/accents (btoa alone can't)
+function toBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = "";
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin);
+}
+
+function fromBase64(b64) {
+  const bin = atob(b64.replace(/\n/g, ""));
+  return new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
+}
+
+// Fetch recipes.json from GitHub. Returns {recipes, sha} or null if missing.
+async function ghFetch() {
+  const res = await fetch(`${ghUrl()}?ref=${encodeURIComponent(ghConfig.branch)}`, { headers: ghHeaders() });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`GitHub said ${res.status} — check your token and repo settings.`);
+  const data = await res.json();
+  const recipes = JSON.parse(fromBase64(data.content));
+  if (!Array.isArray(recipes)) throw new Error("recipes.json is not a recipe list.");
+  for (const r of recipes) r.id ||= uid();
+  return { recipes, sha: data.sha };
+}
+
+// Commit the current recipes to GitHub. Retries once on a sha conflict.
+async function ghSave(isRetry = false) {
+  const body = {
+    message: `Update recipes (${state.recipes.length} recipes)`,
+    content: toBase64(JSON.stringify(state.recipes, null, 2) + "\n"),
+    branch: ghConfig.branch,
+  };
+  if (ghSha) body.sha = ghSha;
+  const res = await fetch(ghUrl(), { method: "PUT", headers: ghHeaders(), body: JSON.stringify(body) });
+  if ((res.status === 409 || res.status === 422) && !isRetry) {
+    // someone (or another device) changed the file since we last looked
+    const remote = await ghFetch();
+    ghSha = remote ? remote.sha : null;
+    if (!confirm("recipes.json changed on GitHub since this device last synced. Overwrite it with this device's recipes?")) {
+      throw new Error("Save cancelled — GitHub copy left untouched.");
+    }
+    return ghSave(true);
+  }
+  if (!res.ok) throw new Error(`GitHub said ${res.status} — check your token and repo settings.`);
+  const data = await res.json();
+  ghSha = data.content.sha;
+  state.dirty = false;
+  state.synced = true;
+  saveState();
+}
+
+function renderSyncStatus() {
+  const el = document.getElementById("sync-status");
+  if (!ghConfig) {
+    el.textContent = "☁️ Recipes not backed up — set up GitHub sync";
+    el.className = "sync-pill warn";
+    return;
+  }
+  if (state.dirty || !state.synced) {
+    el.textContent = "● Unsaved changes — click Save to GitHub";
+    el.className = "sync-pill warn";
+  } else {
+    el.textContent = "✅ Recipes saved to GitHub";
+    el.className = "sync-pill ok";
+  }
+}
+
+// On startup: pull recipes from GitHub. Never clobbers local recipes that
+// haven't been synced yet (protects collections from before sync existed,
+// and unsaved edits).
+async function initSync() {
+  renderSyncStatus();
+  if (!ghConfig) return;
+  try {
+    const remote = await ghFetch();
+    if (!remote) return; // no recipes.json yet — first Save will create it
+    ghSha = remote.sha;
+    if (state.synced && !state.dirty) {
+      state.recipes = remote.recipes;
+      saveState();
+      renderAll();
+    }
+    renderSyncStatus();
+  } catch (e) {
+    toast(e.message);
+  }
+}
+
+document.getElementById("btn-save-github").addEventListener("click", async () => {
+  if (!ghConfig) {
+    openSyncModal();
+    return;
+  }
+  const btn = document.getElementById("btn-save-github");
+  btn.disabled = true;
+  try {
+    if (ghSha === null) {
+      const remote = await ghFetch();
+      if (remote) ghSha = remote.sha;
+    }
+    await ghSave();
+    renderSyncStatus();
+    toast("Recipes saved to GitHub! ✅");
+  } catch (e) {
+    toast(e.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* ---------- sync settings modal ---------- */
+
+const syncModal = document.getElementById("sync-modal");
+
+function openSyncModal() {
+  const cfg = ghConfig || GH_DEFAULTS;
+  document.getElementById("gh-token").value = ghConfig ? ghConfig.token : "";
+  document.getElementById("gh-owner").value = cfg.owner;
+  document.getElementById("gh-repo").value = cfg.repo;
+  document.getElementById("gh-branch").value = cfg.branch;
+  syncModal.showModal();
+}
+
+document.getElementById("btn-sync-settings").addEventListener("click", openSyncModal);
+document.getElementById("sync-status").addEventListener("click", () => {
+  if (!ghConfig) openSyncModal();
+});
+document.getElementById("btn-cancel-sync").addEventListener("click", () => syncModal.close());
+
+document.getElementById("sync-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  ghConfig = {
+    token: document.getElementById("gh-token").value.trim(),
+    owner: document.getElementById("gh-owner").value.trim(),
+    repo: document.getElementById("gh-repo").value.trim(),
+    branch: document.getElementById("gh-branch").value.trim(),
+  };
+  localStorage.setItem(GH_KEY, JSON.stringify(ghConfig));
+  ghSha = null;
+  syncModal.close();
+  renderSyncStatus();
+  // Validate the connection, but keep this device's recipes — the user
+  // decides what to push/pull via the buttons.
+  try {
+    const remote = await ghFetch();
+    if (remote) ghSha = remote.sha;
+    toast("Connected to GitHub! Click “Save to GitHub” to back up your recipes.");
+  } catch (err) {
+    toast(err.message);
+  }
+});
+
+document.getElementById("btn-load-github").addEventListener("click", async () => {
+  if (!ghConfig) return toast("Set up the connection first.");
+  try {
+    const remote = await ghFetch();
+    if (!remote) return toast("No recipes.json on GitHub yet — save first.");
+    if (!confirm(`Replace this device's ${state.recipes.length} recipes with the ${remote.recipes.length} recipes on GitHub?`)) return;
+    ghSha = remote.sha;
+    state.recipes = remote.recipes;
+    state.dirty = false;
+    state.synced = true;
+    saveState();
+    syncModal.close();
+    renderAll();
+    renderSyncStatus();
+    toast("Recipes loaded from GitHub!");
+  } catch (e) {
+    toast(e.message);
+  }
+});
 
 /* ---------- quantity helpers ---------- */
 
@@ -172,7 +382,7 @@ function renderRecipes() {
       // remove it from the plan too
       for (const day of state.plan)
         for (const m of MEALS) if (day[m] && day[m].recipeId === r.id) day[m] = null;
-      saveState();
+      markDirty();
       renderAll();
       toast(`Deleted ${r.name}`);
     })
@@ -253,7 +463,7 @@ document.getElementById("recipe-form").addEventListener("submit", (e) => {
   } else {
     state.recipes.push(recipe);
   }
-  saveState();
+  markDirty();
   modal.close();
   renderAll();
   toast(`Saved ${recipe.name}`);
@@ -284,7 +494,7 @@ document.getElementById("import-file").addEventListener("change", (e) => {
         state.recipes.push({ ...r, id: uid() });
         added++;
       }
-      saveState();
+      markDirty();
       renderAll();
       toast(`Imported ${added} recipe${added === 1 ? "" : "s"}`);
     } catch {
@@ -615,7 +825,7 @@ function renderSuggestions() {
     b.addEventListener("click", () => {
       const pick = picks[Number(b.dataset.adopt)];
       state.recipes.push({ ...pick, id: uid() });
-      saveState();
+      markDirty();
       renderAll();
       toast(`${pick.name} added to your recipes!`);
     })
@@ -641,3 +851,4 @@ function renderAll() {
 
 renderAll();
 saveState();
+initSync();

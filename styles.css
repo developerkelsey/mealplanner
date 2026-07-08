@@ -115,6 +115,20 @@ main { max-width: 1080px; margin: 0 auto; padding: 1.5rem; }
 .btn.danger:hover { background: #f9e9e8; }
 .btn.small { padding: 0.3rem 0.7rem; font-size: 0.85rem; }
 
+/* ---------- sync status ---------- */
+
+.sync-pill {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  margin: 0 0 0.75rem;
+}
+
+.sync-pill.ok { background: #edf4ed; color: var(--green); }
+.sync-pill.warn { background: #fdf3e2; color: #a4690f; cursor: pointer; }
+
 /* ---------- search ---------- */
 
 .search-box {

@@ -213,6 +213,7 @@ function openSyncModal() {
   document.getElementById("gh-owner").value = cfg.owner;
   document.getElementById("gh-repo").value = cfg.repo;
   document.getElementById("gh-branch").value = cfg.branch;
+  renderUndoButton();
   syncModal.showModal();
 }
 
@@ -245,12 +246,49 @@ document.getElementById("sync-form").addEventListener("submit", async (e) => {
   }
 });
 
+// Before any destructive replace, stash the outgoing recipes so one bad
+// click is always undoable.
+const BACKUP_KEY = "weeklyMealPlanner.recipesBackup";
+
+function backupRecipes() {
+  localStorage.setItem(BACKUP_KEY, JSON.stringify({ at: new Date().toISOString(), recipes: state.recipes }));
+  renderUndoButton();
+}
+
+function renderUndoButton() {
+  const btn = document.getElementById("btn-undo-load");
+  let backup = null;
+  try {
+    backup = JSON.parse(localStorage.getItem(BACKUP_KEY));
+  } catch { /* no backup */ }
+  btn.hidden = !backup;
+  if (backup) btn.textContent = `↩️ Undo load (restore ${backup.recipes.length} recipes from ${new Date(backup.at).toLocaleString()})`;
+}
+
+document.getElementById("btn-undo-load").addEventListener("click", () => {
+  let backup = null;
+  try {
+    backup = JSON.parse(localStorage.getItem(BACKUP_KEY));
+  } catch { /* fall through */ }
+  if (!backup) return toast("No backup to restore.");
+  if (!confirm(`Restore the ${backup.recipes.length} recipes from ${new Date(backup.at).toLocaleString()}? Current recipes will be backed up in their place.`)) return;
+  const current = state.recipes;
+  state.recipes = backup.recipes;
+  localStorage.setItem(BACKUP_KEY, JSON.stringify({ at: new Date().toISOString(), recipes: current }));
+  markDirty();
+  syncModal.close();
+  renderAll();
+  renderUndoButton();
+  toast("Recipes restored — click Save to GitHub to keep them.");
+});
+
 document.getElementById("btn-load-github").addEventListener("click", async () => {
   if (!ghConfig) return toast("Set up the connection first.");
   try {
     const remote = await ghFetch();
     if (!remote) return toast("No recipes.json on GitHub yet — save first.");
-    if (!confirm(`Replace this device's ${state.recipes.length} recipes with the ${remote.recipes.length} recipes on GitHub?`)) return;
+    if (!confirm(`Replace this device's ${state.recipes.length} recipes with the ${remote.recipes.length} recipes on GitHub? (Your current recipes are kept as an undo backup.)`)) return;
+    backupRecipes();
     ghSha = remote.sha;
     state.recipes = remote.recipes;
     state.dirty = false;

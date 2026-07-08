@@ -1,9 +1,9 @@
 [
   {
     "id": "starter-0",
-    "name": "Lemon Garlic Chicken",
+    "name": "Kelsey's Chicken and Rice",
     "servings": 4,
-    "meal": "dinner",
+    "meal": "both",
     "tags": [
       "chicken",
       "quick",
@@ -12,47 +12,59 @@
     "ingredients": [
       {
         "item": "chicken breast",
-        "qty": 4,
-        "unit": "piece",
+        "qty": 1,
+        "unit": "pound",
         "category": "Meat & Seafood"
       },
       {
-        "item": "lemon",
-        "qty": 2,
-        "unit": "piece",
-        "category": "Produce"
-      },
-      {
-        "item": "garlic",
-        "qty": 4,
-        "unit": "clove",
-        "category": "Produce"
-      },
-      {
-        "item": "olive oil",
-        "qty": 3,
-        "unit": "tbsp",
+        "item": "Rice",
+        "qty": 100,
+        "unit": "Grams",
         "category": "Pantry"
       },
       {
-        "item": "butter",
-        "qty": 2,
-        "unit": "tbsp",
+        "item": "Parmesan Cheese",
+        "qty": 40,
+        "unit": "Grams",
         "category": "Dairy & Eggs"
       },
       {
-        "item": "fresh parsley",
-        "qty": 0.25,
-        "unit": "cup",
+        "item": "Salad",
+        "qty": 2,
+        "unit": "Cup",
         "category": "Produce"
+      },
+      {
+        "item": "Cilantro",
+        "qty": 0.5,
+        "unit": "Cup",
+        "category": "Produce"
+      },
+      {
+        "item": "Chipotle Cremosa Sauce",
+        "qty": 2,
+        "unit": "tbsp",
+        "category": "Other"
+      },
+      {
+        "item": "Fermented Beets and Cabbage(wildbrine)",
+        "qty": 4,
+        "unit": "tbsp",
+        "category": "Other"
+      },
+      {
+        "item": "Green Onion",
+        "qty": 2,
+        "unit": "tbsp",
+        "category": "Other"
       }
     ]
   },
   {
     "id": "starter-1",
-    "name": "Spaghetti Bolognese",
+    "name": "Pasta",
     "servings": 4,
-    "meal": "dinner",
+    "meal": "lunch",
     "tags": [
       "pasta",
       "italian",
@@ -60,60 +72,29 @@
     ],
     "ingredients": [
       {
-        "item": "spaghetti",
-        "qty": 1,
-        "unit": "lb",
-        "category": "Pantry"
-      },
-      {
-        "item": "ground beef",
+        "item": "99% Lean Ground Turkey",
         "qty": 1,
         "unit": "lb",
         "category": "Meat & Seafood"
       },
       {
-        "item": "crushed tomatoes",
-        "qty": 28,
-        "unit": "oz",
+        "item": "Sauz Pasta Sauce",
+        "qty": 1,
+        "unit": "Jar",
         "category": "Pantry"
       },
       {
-        "item": "onion",
-        "qty": 1,
-        "unit": "piece",
-        "category": "Produce"
-      },
-      {
-        "item": "garlic",
-        "qty": 3,
-        "unit": "clove",
-        "category": "Produce"
-      },
-      {
-        "item": "carrot",
-        "qty": 1,
-        "unit": "piece",
-        "category": "Produce"
-      },
-      {
-        "item": "olive oil",
-        "qty": 2,
-        "unit": "tbsp",
+        "item": "Fusilli Noodles",
+        "qty": 224,
+        "unit": "grams",
         "category": "Pantry"
-      },
-      {
-        "item": "parmesan cheese",
-        "qty": 0.5,
-        "unit": "cup",
-        "category": "Dairy & Eggs"
       }
     ]
   },
   {
     "id": "starter-2",
-    "name": "Veggie Stir-Fry with Rice",
-    "servings": 2,
-    "meal": "both",
+    "name": "Buddah Bowl",
+    "servings": 4,
     "tags": [
       "vegetarian",
       "asian",
@@ -121,249 +102,198 @@
     ],
     "ingredients": [
       {
-        "item": "jasmine rice",
-        "qty": 1,
-        "unit": "cup",
+        "item": "Jasmine rice",
+        "qty": 100,
+        "unit": "gram",
         "category": "Pantry"
       },
       {
-        "item": "broccoli",
+        "item": "Sweet Potato",
+        "qty": 1,
+        "unit": "potato",
+        "category": "Produce"
+      },
+      {
+        "item": "Black Beans",
+        "qty": 1,
+        "unit": "can",
+        "category": "Produce"
+      },
+      {
+        "item": "Chicken Breast",
+        "qty": 1,
+        "unit": "pound",
+        "category": "Produce"
+      },
+      {
+        "item": "Cremosa Sauce",
         "qty": 2,
-        "unit": "cup",
-        "category": "Produce"
-      },
-      {
-        "item": "bell pepper",
-        "qty": 1,
-        "unit": "piece",
-        "category": "Produce"
-      },
-      {
-        "item": "carrot",
-        "qty": 1,
-        "unit": "piece",
-        "category": "Produce"
-      },
-      {
-        "item": "soy sauce",
-        "qty": 3,
         "unit": "tbsp",
         "category": "Pantry"
       },
       {
-        "item": "garlic",
-        "qty": 2,
-        "unit": "clove",
+        "item": "Onion",
+        "qty": 0.5,
+        "unit": "whole",
         "category": "Produce"
       },
       {
-        "item": "fresh ginger",
+        "item": "Zucchini Squash",
         "qty": 1,
-        "unit": "tbsp",
+        "unit": "whole",
         "category": "Produce"
-      },
-      {
-        "item": "sesame oil",
-        "qty": 1,
-        "unit": "tbsp",
-        "category": "Pantry"
       }
-    ]
+    ],
+    "meal": "both"
   },
   {
     "id": "starter-3",
-    "name": "Sheet-Pan Salmon & Asparagus",
+    "name": "Potato Hash",
     "servings": 2,
-    "meal": "dinner",
-    "tags": [
-      "fish",
-      "healthy",
-      "quick"
-    ],
-    "ingredients": [
-      {
-        "item": "salmon fillet",
-        "qty": 2,
-        "unit": "piece",
-        "category": "Meat & Seafood"
-      },
-      {
-        "item": "asparagus",
-        "qty": 1,
-        "unit": "bunch",
-        "category": "Produce"
-      },
-      {
-        "item": "lemon",
-        "qty": 1,
-        "unit": "piece",
-        "category": "Produce"
-      },
-      {
-        "item": "olive oil",
-        "qty": 2,
-        "unit": "tbsp",
-        "category": "Pantry"
-      },
-      {
-        "item": "garlic",
-        "qty": 2,
-        "unit": "clove",
-        "category": "Produce"
-      }
-    ]
-  },
-  {
-    "id": "starter-4",
-    "name": "Beef Tacos",
-    "servings": 4,
-    "meal": "both",
-    "tags": [
-      "mexican",
-      "beef",
-      "weeknight"
-    ],
-    "ingredients": [
-      {
-        "item": "ground beef",
-        "qty": 1,
-        "unit": "lb",
-        "category": "Meat & Seafood"
-      },
-      {
-        "item": "taco shells",
-        "qty": 8,
-        "unit": "piece",
-        "category": "Pantry"
-      },
-      {
-        "item": "cheddar cheese",
-        "qty": 1,
-        "unit": "cup",
-        "category": "Dairy & Eggs"
-      },
-      {
-        "item": "lettuce",
-        "qty": 2,
-        "unit": "cup",
-        "category": "Produce"
-      },
-      {
-        "item": "tomato",
-        "qty": 2,
-        "unit": "piece",
-        "category": "Produce"
-      },
-      {
-        "item": "taco seasoning",
-        "qty": 2,
-        "unit": "tbsp",
-        "category": "Pantry"
-      },
-      {
-        "item": "sour cream",
-        "qty": 0.5,
-        "unit": "cup",
-        "category": "Dairy & Eggs"
-      }
-    ]
-  },
-  {
-    "id": "starter-5",
-    "name": "Chicken Caesar Salad",
-    "servings": 2,
-    "meal": "lunch",
     "tags": [
       "chicken",
-      "salad",
-      "healthy",
-      "quick"
+      "potatoes",
+      "healthy"
     ],
     "ingredients": [
       {
-        "item": "chicken breast",
-        "qty": 2,
-        "unit": "piece",
+        "item": "Chicken Breasts",
+        "qty": 0.5,
+        "unit": "pound",
         "category": "Meat & Seafood"
       },
       {
-        "item": "romaine lettuce",
-        "qty": 1,
-        "unit": "head",
+        "item": "Mini Bell Peppers",
+        "qty": 0.5,
+        "unit": "bag",
         "category": "Produce"
       },
       {
-        "item": "caesar dressing",
-        "qty": 0.33,
-        "unit": "cup",
-        "category": "Pantry"
-      },
-      {
-        "item": "parmesan cheese",
-        "qty": 0.33,
-        "unit": "cup",
-        "category": "Dairy & Eggs"
-      },
-      {
-        "item": "croutons",
-        "qty": 1,
-        "unit": "cup",
-        "category": "Pantry"
-      }
-    ]
-  },
-  {
-    "id": "starter-6",
-    "name": "Creamy Tomato Soup & Grilled Cheese",
-    "servings": 2,
-    "meal": "both",
-    "tags": [
-      "vegetarian",
-      "comfort",
-      "soup"
-    ],
-    "ingredients": [
-      {
-        "item": "crushed tomatoes",
-        "qty": 28,
-        "unit": "oz",
-        "category": "Pantry"
-      },
-      {
-        "item": "heavy cream",
-        "qty": 0.5,
-        "unit": "cup",
-        "category": "Dairy & Eggs"
-      },
-      {
-        "item": "onion",
-        "qty": 1,
+        "item": "Sweet or Regular Potatoes",
+        "qty": 200,
         "unit": "piece",
         "category": "Produce"
       },
       {
-        "item": "garlic",
+        "item": "Cilantro",
+        "qty": 2,
+        "unit": "tbsp",
+        "category": "Produce"
+      },
+      {
+        "item": "Green Onion",
         "qty": 2,
         "unit": "clove",
         "category": "Produce"
       },
       {
-        "item": "sourdough bread",
-        "qty": 4,
-        "unit": "slice",
-        "category": "Bakery"
+        "item": "Yellow Onion",
+        "qty": 0.25,
+        "unit": "onion",
+        "category": "Produce"
       },
       {
-        "item": "cheddar cheese",
-        "qty": 4,
-        "unit": "slice",
+        "item": "Parmesan Cheese",
+        "qty": 20,
+        "unit": "grams",
         "category": "Dairy & Eggs"
+      }
+    ],
+    "meal": "both"
+  },
+  {
+    "id": "mr9qd8x1v5wik",
+    "name": "Salmon",
+    "servings": 2,
+    "meal": "dinner",
+    "tags": [],
+    "ingredients": [
+      {
+        "item": "Salmon",
+        "qty": 2,
+        "unit": "portions",
+        "category": "Meat & Seafood"
       },
       {
-        "item": "butter",
+        "item": "FarEast Garlic and Olive Oil Cous Cous",
+        "qty": 1,
+        "unit": "box",
+        "category": "Other"
+      },
+      {
+        "item": "Salad",
+        "qty": 2,
+        "unit": "cups",
+        "category": "Other"
+      }
+    ]
+  },
+  {
+    "id": "mr9qk7duchz4i",
+    "name": "FANCY Salad",
+    "servings": 2,
+    "meal": "both",
+    "tags": [],
+    "ingredients": [
+      {
+        "item": "Spring Mix",
+        "qty": 4,
+        "unit": "cups",
+        "category": "Produce"
+      },
+      {
+        "item": "Grilled Chicken",
+        "qty": 0.5,
+        "unit": "pound",
+        "category": "Other"
+      },
+      {
+        "item": "Strawberries",
+        "qty": 0.5,
+        "unit": "cup",
+        "category": "Other"
+      },
+      {
+        "item": "Feta",
+        "qty": 0.5,
+        "unit": "cup",
+        "category": "Other"
+      },
+      {
+        "item": "Pine nuts",
+        "qty": 0.25,
+        "unit": "cup",
+        "category": "Other"
+      },
+      {
+        "item": "Toasted Sliced Almonds",
+        "qty": 0.25,
+        "unit": "cup",
+        "category": "Other"
+      },
+      {
+        "item": "Balsamic Vinegarette",
         "qty": 2,
         "unit": "tbsp",
-        "category": "Dairy & Eggs"
+        "category": "Other"
+      },
+      {
+        "item": "Cilantro",
+        "qty": 2,
+        "unit": "tbsp",
+        "category": "Other"
+      },
+      {
+        "item": "Green Onion",
+        "qty": 2,
+        "unit": "tbsp",
+        "category": "Other"
+      },
+      {
+        "item": "Cherry Tomatoes",
+        "qty": 1,
+        "unit": "cup",
+        "category": "Other"
       }
     ]
   }

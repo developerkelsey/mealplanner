@@ -150,6 +150,7 @@
     "id": "starter-3",
     "name": "Potato Hash",
     "servings": 2,
+    "meal": "both",
     "tags": [
       "chicken",
       "potatoes",
@@ -171,7 +172,7 @@
       {
         "item": "Sweet or Regular Potatoes",
         "qty": 200,
-        "unit": "piece",
+        "unit": "grams",
         "category": "Produce"
       },
       {
@@ -198,8 +199,7 @@
         "unit": "grams",
         "category": "Dairy & Eggs"
       }
-    ],
-    "meal": "both"
+    ]
   },
   {
     "id": "mr9qd8x1v5wik",
@@ -224,6 +224,12 @@
         "item": "Salad",
         "qty": 2,
         "unit": "cups",
+        "category": "Other"
+      },
+      {
+        "item": "Lemon",
+        "qty": 1,
+        "unit": "piece",
         "category": "Other"
       }
     ]
